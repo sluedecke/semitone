@@ -27,13 +27,15 @@ import android.view.ViewGroup;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.preference.PreferenceManager;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.preference.PreferenceManager;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends FragmentActivity {
 
@@ -93,7 +95,9 @@ public class MainActivity extends FragmentActivity {
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                openOptionsMenu();
+                startActivityForResult(
+                        new Intent(MainActivity.this, SettingsActivity.class),
+                        SETTINGS_INTENT_CODE);
             }
         });
     }
@@ -126,26 +130,6 @@ public class MainActivity extends FragmentActivity {
             keeptick = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean("keeptick", false);
             break;
-        }
-    }
-
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-        case R.id.menu_settings:
-            startActivityForResult(new Intent(this, SettingsActivity.class),
-                    SETTINGS_INTENT_CODE);
-            return true;
-        case R.id.menu_about:
-            startActivity(new Intent(this, AboutActivity.class));
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
         }
     }
 
